@@ -128,7 +128,7 @@
   <div class="footer-line"></div>
 </div>
 
-<!-- ✅ Save/Print buttons -->
+<!-- Save/Print buttons -->
 <div style="text-align:center; margin-top:20px;">
   <button onclick="saveAsPDF()">Save to PDF</button>
   <button onclick="prepareShopAddressForOutput(); window.print(); restoreShopAddressAfterOutput();">Print</button>
@@ -183,7 +183,7 @@
     newRow.querySelector(".qty").addEventListener("input", addRowIfNeeded);
   }
 
-  // ✅ Shop Address helpers
+  // Shop Address helpers
   function toggleShopAddressInput(select) {
     const manualInput = document.getElementById("manualShopAddress");
     if (select.value === "manual") {
@@ -222,7 +222,7 @@
     }
   }
 
-  // ✅ Save as PDF
+  // Save as PDF
   function saveAsPDF() {
     const invoice = document.getElementById('invoice');
     const orderIdInput = Array.from(invoice.querySelectorAll('label'))
