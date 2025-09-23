@@ -170,7 +170,7 @@
       </tr>
     </thead>
     <tbody>
-      <!-- 10 rows restored -->
+      <!-- 10 rows initial -->
       <tr><td>1</td><td><input type="text" class="desc-input" /></td><td><input type="text" /></td><td><input type="number" class="small-input price" oninput="calculateRow(this)" /></td><td><input type="number" class="small-input qty" oninput="calculateRow(this)" /></td><td><span class="amount">0.00</span></td></tr>
       <tr><td>2</td><td><input type="text" class="desc-input" /></td><td><input type="text" /></td><td><input type="number" class="small-input price" oninput="calculateRow(this)" /></td><td><input type="number" class="small-input qty" oninput="calculateRow(this)" /></td><td><span class="amount">0.00</span></td></tr>
       <tr><td>3</td><td><input type="text" class="desc-input" /></td><td><input type="text" /></td><td><input type="number" class="small-input price" oninput="calculateRow(this)" /></td><td><input type="number" class="small-input qty" oninput="calculateRow(this)" /></td><td><span class="amount">0.00</span></td></tr>
@@ -320,8 +320,29 @@ function saveAsPDF() {
     restoreShopAddressAfterOutput();
   });
 }
-</script>
 
-</body>
-</html>
+/* === AUTO ADD ROW FUNCTION === */
+function addRowIfNeeded() {
+  const tbody = document.querySelector("table tbody");
+  const rows = tbody.querySelectorAll("tr");
+  const lastRow = rows[rows.length - 1];
 
+  const desc = lastRow.querySelector(".desc-input").value.trim();
+  const qty = lastRow.querySelector(".qty").value.trim();
+
+  if (desc !== "" && qty !== "") {
+    const newIndex = rows.length + 1;
+    const newRow = document.createElement("tr");
+    newRow.innerHTML = `
+      <td>${newIndex}</td>
+      <td><input type="text" class="desc-input" oninput="addRowIfNeeded()" /></td>
+      <td><input type="text" /></td>
+      <td><input type="number" class="small-input price" oninput="calculateRow(this)" /></td>
+      <td><input type="number" class="small-input qty" oninput="calculateRow(this); addRowIfNeeded()" /></td>
+      <td><span class="amount">0.00</span></td>
+    `;
+    tbody.appendChild(newRow);
+  }
+}
+
+/* Attach listeners for initial 10 rows */
