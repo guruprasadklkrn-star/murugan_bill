@@ -16,28 +16,20 @@
     table { width: 100%; border-collapse: collapse; font-size: 11px; margin-top: 4px; }
     table, th, td { border: 1px solid black; }
     th, td { padding: 2px; text-align: center; }
-    input[type="text"], input[type="number"], input[type="date"] {
-      box-sizing: border-box; padding: 2px; font-size: 11px;
-      border: none; border-bottom: 1px dotted #555; background: transparent; outline: none;
-    }
+    input[type="text"], input[type="number"], input[type="date"] { box-sizing: border-box; padding: 2px; font-size: 11px; border: none; border-bottom: 1px dotted #555; background: transparent; outline: none; }
     .desc-input { width: 100%; }
     .small-input { width: 45px; }
     .totals { display: flex; justify-content: space-between; margin-top: 8px; }
     .totals .left, .totals .right { width: 48%; font-size: 11px; }
     .totals .right td { text-align: left; }
     .footer-line { border-top: 1px solid black; margin-top: 10px; }
-    button.delete-btn { font-size: 10px; padding: 2px 6px; cursor: pointer; }
+    button { display: block; margin: 10px auto; padding: 6px 14px; font-size: 13px; }
     @media print {
       button { display: none; }
       body { margin: 0; }
       .container { border: none; }
-      input {
-        border: none !important; outline: none !important; background: none !important;
-        -webkit-appearance: none !important; appearance: none !important; padding: 0 !important;
-      }
-      input::-webkit-inner-spin-button, input::-webkit-calendar-picker-indicator {
-        display: none !important; -webkit-appearance: none !important;
-      }
+      input { border: none !important; outline: none !important; background: none !important; -webkit-appearance: none !important; appearance: none !important; padding: 0 !important; }
+      input::-webkit-inner-spin-button, input::-webkit-calendar-picker-indicator { display: none !important; -webkit-appearance: none !important; }
     }
   </style>
 </head>
@@ -47,17 +39,15 @@
   <div class="header">
     <h2>MURUGAN LAUNDRY</h2>
     <p>
-      <select id="shopAddressSelect" onchange="toggleShopAddressInput(this)"
-        style="display:block; margin:0 auto; border:none; border-bottom:1px dotted #555;
-               background:transparent; outline:none; font-size:13px; text-align:center; width:fit-content;">
+      <select id="shopAddressSelect" onchange="toggleShopAddressInput(this)" 
+        style="display:block; margin:0 auto; border:none; border-bottom:1px dotted #555; background:transparent; outline:none; font-size:13px; text-align:center; width:fit-content;">
         <option value="default">10th Cross, Patel Layout, Balagere Road, Varthur, Bangalore - 87</option>
         <option value="manual">Enter Manually</option>
       </select>
-      <input type="text" id="manualShopAddress"
-        style="display:none; margin:0 auto; border:none; border-bottom:1px dotted #555;
-               background:transparent; outline:none; font-size:13px; text-align:center; width:fit-content;"
+      <input type="text" id="manualShopAddress" 
+        style="display:none; margin:0 auto; border:none; border-bottom:1px dotted #555; background:transparent; outline:none; font-size:13px; text-align:center; width:fit-content;" 
         placeholder="Enter Shop Address Here" />
-      <span id="finalShopAddress"
+      <span id="finalShopAddress" 
         style="display:none; font-size:13px; text-align:center; display:block; margin:0 auto; width:fit-content;"></span>
     </p>
   </div>
@@ -71,7 +61,7 @@
       <label>Customer Address: <input type="text" style="width: 100%;" /></label>
     </div>
     <div style="width: 48%;">
-      <label>Order ID: <input type="text" /></label><br /><br />
+      <label>Order ID: <input type="text" id="orderId"/></label><br /><br />
       <div style="display: flex; justify-content: space-between; gap: 5px;">
         <label>Pickup Date: <input type="date" style="width: 100px;" /></label>
         <label>Drop Date: <input type="date" style="width: 100px;" /></label>
@@ -81,7 +71,7 @@
 
   <div class="line"></div>
 
-  <table>
+  <table id="itemsTable">
     <thead>
       <tr>
         <th>Sl. No.</th>
@@ -93,23 +83,39 @@
         <th>Action</th>
       </tr>
     </thead>
-    <tbody id="bill-body">
-      <!-- 10 starting rows -->
-      <script>
-        for (let i = 1; i <= 10; i++) {
-          document.write(`
-            <tr>
-              <td>${i}</td>
-              <td><input type="text" class="desc-input" /></td>
-              <td><input type="text" /></td>
-              <td><input type="number" class="small-input price" oninput="calculateRow(this)" /></td>
-              <td><input type="number" class="small-input qty" oninput="calculateRow(this)" /></td>
-              <td><span class="amount">0.00</span></td>
-              <td><button type="button" class="delete-btn" onclick="deleteRow(this)">X</button></td>
-            </tr>
-          `);
-        }
-      </script>
+    <tbody>
+      <!-- 10 initial rows -->
+      ${[...Array(10)].map((_, i) => `
+        <tr>
+          <td>${i+1}</td>
+          <td><input type="text" class="desc-input" oninput="checkAddRow(this)" /></td>
+          <td><input type="text" /></td>
+          <td><input type="number" class="small-input price" oninput="calculateRow(this)" /></td>
+          <td><input type="number" class="small-input qty" oninput="calculateRow(this); checkAddRow(this)" /></td>
+          <td><span class="amount">0.00</span></td>
+          <td><button onclick="deleteRow(this)">Delete</button></td>
+        </tr>
+      `).join('')}
+    </tbody>
+  </table>
+
+  <table>
+    <thead>
+      <tr><th>Service Type</th><th>Price</th><th>Qty</th><th>Amount</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Wash & Iron Kg</td>
+        <td><input type="number" class="extra-price" value="100" oninput="calculateExtra(this)" /></td>
+        <td><input type="number" class="extra-qty" data-price="100" oninput="calculateExtra(this)" /></td>
+        <td><span class="extra-amount">0.00</span></td>
+      </tr>
+      <tr>
+        <td>Wash & Fold Kg</td>
+        <td><input type="number" class="extra-price" value="75" oninput="calculateExtra(this)" /></td>
+        <td><input type="number" class="extra-qty" data-price="75" oninput="calculateExtra(this)" /></td>
+        <td><span class="extra-amount">0.00</span></td>
+      </tr>
     </tbody>
   </table>
 
@@ -131,74 +137,107 @@
   <div class="footer-line"></div>
 </div>
 
+<div style="text-align:center; margin-top:20px;">
+  <button onclick="saveAsPDF()">Save as PDF</button>
+  <button onclick="printBill()">Print</button>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 <script>
-  function calculateRow(input) {
-    let row = input.closest("tr");
-    let price = parseFloat(row.querySelector(".price")?.value) || 0;
-    let qty = parseFloat(row.querySelector(".qty")?.value) || 0;
-    row.querySelector(".amount").innerText = (price * qty).toFixed(2);
-    calculateTotal();
-    addRowIfNeeded();
-  }
+/* === CALCULATIONS === */
+function calculateRow(el) {
+  const row = el.closest('tr');
+  const price = parseFloat(row.querySelector('.price')?.value || 0);
+  const qty = parseFloat(row.querySelector('.qty')?.value || 0);
+  row.querySelector('.amount').innerText = (price * qty).toFixed(2);
+  calculateTotal();
+}
+function calculateExtra(el) {
+  const row = el.closest('tr');
+  const qtyInput = row.querySelector('.extra-qty');
+  const priceInput = row.querySelector('.extra-price');
+  const qty = parseFloat(qtyInput.value || 0);
+  const price = parseFloat(priceInput.value || 0);
+  qtyInput.dataset.price = price;
+  row.querySelector('.extra-amount').innerText = (price * qty).toFixed(2);
+  calculateTotal();
+}
+function calculateTotal() {
+  let total = 0;
+  document.querySelectorAll('.amount, .extra-amount').forEach(span => { total += parseFloat(span.innerText) || 0; });
+  document.getElementById('subtotal').innerText = total.toFixed(2);
+  const discount = parseFloat(document.getElementById('discount').value) || 0;
+  document.getElementById('gross').innerText = (total - discount).toFixed(2);
+}
 
-  function calculateTotal() {
-    let subtotal = 0;
-    document.querySelectorAll(".amount").forEach(span => {
-      subtotal += parseFloat(span.innerText) || 0;
-    });
-    document.getElementById("subtotal").innerText = subtotal.toFixed(2);
-    let discount = parseFloat(document.getElementById("discount").value) || 0;
-    document.getElementById("gross").innerText = (subtotal - discount).toFixed(2);
-  }
+/* === SHOP ADDRESS === */
+function toggleShopAddressInput(select) {
+  const manualInput = document.getElementById("manualShopAddress");
+  if (select.value === "manual") {
+    select.style.display = "none"; manualInput.style.display = "block"; manualInput.focus();
+  } else { manualInput.style.display = "none"; select.style.display = "block"; }
+}
+function prepareShopAddressForOutput() {
+  const select = document.getElementById("shopAddressSelect");
+  const manualInput = document.getElementById("manualShopAddress");
+  const finalSpan = document.getElementById("finalShopAddress");
+  finalSpan.textContent = (manualInput.style.display !== "none" && manualInput.value.trim() !== "") ? manualInput.value : select.options[select.selectedIndex].text;
+  finalSpan.style.display = "block"; select.style.display = "none"; manualInput.style.display = "none";
+}
+function restoreShopAddressAfterOutput() {
+  const select = document.getElementById("shopAddressSelect");
+  const manualInput = document.getElementById("manualShopAddress");
+  const finalSpan = document.getElementById("finalShopAddress");
+  finalSpan.style.display = "none";
+  (manualInput.value.trim() !== "") ? manualInput.style.display = "block" : select.style.display = "block";
+}
 
-  function addRowIfNeeded() {
-    let rows = document.querySelectorAll("#bill-body tr");
-    let lastRow = rows[rows.length - 1];
-    let desc = lastRow.querySelector(".desc-input").value.trim();
-    let qty = lastRow.querySelector(".qty").value.trim();
+/* === SAVE AS PDF === */
+function saveAsPDF() {
+  const orderId = document.getElementById("orderId").value || "NoID";
+  const fileName = `Murugan Laundry Bill - ${orderId}.pdf`;
+  // Hide Action column
+  document.querySelectorAll("td:nth-child(7), th:nth-child(7)").forEach(el => el.style.display = "none");
+  html2pdf().from(document.body).set({margin:10, filename:fileName, html2canvas:{scale:2}, jsPDF:{unit:"mm", format:"a4", orientation:"portrait"}}).save()
+  .then(()=>{document.querySelectorAll("td:nth-child(7), th:nth-child(7)").forEach(el=>el.style.display="");});
+}
 
-    if (desc !== "" && qty !== "") {
-      addRow();
-    }
-  }
+/* === PRINT === */
+function printBill() {
+  document.querySelectorAll("td:nth-child(7), th:nth-child(7)").forEach(el => el.style.display = "none");
+  window.print();
+  document.querySelectorAll("td:nth-child(7), th:nth-child(7)").forEach(el => el.style.display = "");
+}
 
-  function addRow() {
-    let tbody = document.getElementById("bill-body");
-    let rowCount = tbody.rows.length + 1;
-    let newRow = document.createElement("tr");
+/* === AUTO ADD ROW === */
+function checkAddRow(el) {
+  const tbody = document.querySelector("#itemsTable tbody");
+  const rows = tbody.querySelectorAll("tr");
+  const lastRow = rows[rows.length-1];
+  const desc = lastRow.querySelector(".desc-input").value.trim();
+  const qty = lastRow.querySelector(".qty").value.trim();
+  if(desc!=="" && qty!==""){
+    const newRow = document.createElement("tr");
     newRow.innerHTML = `
-      <td>${rowCount}</td>
-      <td><input type="text" class="desc-input" /></td>
+      <td>${rows.length+1}</td>
+      <td><input type="text" class="desc-input" oninput="checkAddRow(this)" /></td>
       <td><input type="text" /></td>
       <td><input type="number" class="small-input price" oninput="calculateRow(this)" /></td>
-      <td><input type="number" class="small-input qty" oninput="calculateRow(this)" /></td>
+      <td><input type="number" class="small-input qty" oninput="calculateRow(this); checkAddRow(this)" /></td>
       <td><span class="amount">0.00</span></td>
-      <td><button type="button" class="delete-btn" onclick="deleteRow(this)">X</button></td>
+      <td><button onclick="deleteRow(this)">Delete</button></td>
     `;
     tbody.appendChild(newRow);
-
-    // bind listener
-    newRow.querySelector(".desc-input").addEventListener("input", addRowIfNeeded);
-    newRow.querySelector(".qty").addEventListener("input", addRowIfNeeded);
   }
+}
 
-  function deleteRow(btn) {
-    let row = btn.closest("tr");
-    row.remove();
-    updateSerialNumbers();
-    calculateTotal();
-  }
-
-  function updateSerialNumbers() {
-    document.querySelectorAll("#bill-body tr").forEach((row, index) => {
-      row.querySelector("td").innerText = index + 1;
-    });
-  }
-
-  // Attach listeners for initial rows
-  document.querySelectorAll(".desc-input, .qty").forEach(input => {
-    input.addEventListener("input", addRowIfNeeded);
-  });
+/* === DELETE ROW === */
+function deleteRow(btn) {
+  const tbody = document.querySelector("#itemsTable tbody");
+  btn.closest("tr").remove();
+  // Update Sl. No
+  tbody.querySelectorAll("tr").forEach((tr,i)=>tr.querySelector("td:first-child").innerText = i+1);
+}
 </script>
 </body>
 </html>
