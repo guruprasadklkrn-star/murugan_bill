@@ -41,7 +41,7 @@
     .footer-line { border-top: 1px solid #87CEFA; margin-top: 10px; }
 
     #finalShopAddress { font-weight: bold; font-size: 13px; display: block; text-align: center; margin: 0 auto; }
-    #shopTagline { font-size: 12px; text-align: center; font-style: italic; display: none; margin-top: 2px; }
+    #shopTagline { font-size: 12px; text-align: center; font-style: italic; display: block; margin-top: 2px; }
 
     @media print {
       button { display: none; }
@@ -249,7 +249,6 @@
     const select = document.getElementById("shopAddressSelect");
     const manualInput = document.getElementById("manualShopAddress");
     const finalSpan = document.getElementById("finalShopAddress");
-    const tagline = document.getElementById("shopTagline");
 
     let value = "";
     if (manualInput.style.display !== "none" && manualInput.value.trim() !== "") {
@@ -260,7 +259,6 @@
 
     finalSpan.textContent = value;
     finalSpan.style.display = "block";
-    tagline.style.display = "block"; // show tagline
     select.style.display = "none";
     manualInput.style.display = "none";
   }
@@ -269,10 +267,8 @@
     const select = document.getElementById("shopAddressSelect");
     const manualInput = document.getElementById("manualShopAddress");
     const finalSpan = document.getElementById("finalShopAddress");
-    const tagline = document.getElementById("shopTagline");
 
     finalSpan.style.display = "none";
-    tagline.style.display = "none"; // hide tagline
     if (manualInput.value.trim() !== "") {
       manualInput.style.display = "block";
     } else {
