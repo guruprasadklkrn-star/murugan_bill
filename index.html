@@ -15,6 +15,8 @@
     .header { text-align: center; background: #E0F7FA; padding: 10px; border-radius: 6px 6px 0 0; }
     .header h2 { font-size: 20px; margin: 0; font-weight: bold; }
     .header p { font-size: 13px; margin: 3px 0; }
+    .header .tagline { font-size: 11px; font-style: italic; margin-top: 2px; color: #555; }
+
     .line { border-bottom: 1px solid #87CEFA; margin: 6px 0; }
 
     .info { display: flex; justify-content: space-between; font-size: 12px; margin-top: 5px; }
@@ -61,6 +63,7 @@
 <div class="container" id="invoice">
   <div class="header">
     <h2>MURUGAN LAUNDRY</h2>
+    <p class="tagline">“Clean Clothes, Happy Life”</p>
     <p>
       <select id="shopAddressSelect" onchange="toggleShopAddressInput(this)"
         style="display:block; margin:0 auto; border:none; border-bottom:1px dotted #555;
