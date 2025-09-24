@@ -10,14 +10,6 @@
     .header { text-align: center; }
     .header h2 { font-size: 18px; margin: 0; text-decoration: underline; }
     .header p { margin: 3px 0; font-size: 13px; }
-    .header .tagline {
-      display: block;
-      font-size: 13px;
-      font-style: italic;
-      color: #555;
-      margin: 4px 0 8px 0;
-      text-align: center;
-    }
     .line { border-bottom: 1px solid black; margin: 6px 0; }
     .info { display: flex; justify-content: space-between; font-size: 12px; }
     .info input { width: 100%; padding: 3px; font-size: 12px; border: none; border-bottom: 1px dotted #555; background: transparent; outline: none; }
@@ -34,6 +26,7 @@
     .totals .left, .totals .right { width: 48%; font-size: 11px; }
     .totals .right td { text-align: left; }
     .footer-line { border-top: 1px solid black; margin-top: 10px; }
+    .tagline { display: block; font-size: 13px; font-style: italic; margin-top: 4px; }
     @media print {
       button { display: none; }
       body { margin: 0; }
@@ -66,8 +59,8 @@
         placeholder="Enter Shop Address Here" />
       <span id="finalShopAddress"
         style="display:none; font-size:13px; text-align:center; display:block; margin:0 auto; width:fit-content;"></span>
+      <span class="tagline">Clean Clothes, Happy Life</span>
     </p>
-    <span class="tagline">Clean Clothes, Happy Life</span>
   </div>
 
   <div class="line"></div>
