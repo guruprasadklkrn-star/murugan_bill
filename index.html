@@ -41,6 +41,7 @@
     .footer-line { border-top: 1px solid #87CEFA; margin-top: 10px; }
 
     #finalShopAddress { font-weight: bold; font-size: 13px; display: block; text-align: center; margin: 0 auto; }
+    #shopTagline { font-size: 12px; text-align: center; font-style: italic; display: none; margin-top: 2px; }
 
     @media print {
       button { display: none; }
@@ -72,12 +73,8 @@
         style="display:none; margin:0 auto; border:none; border-bottom:1px dotted #555;
                background:transparent; outline:none; font-size:13px; text-align:center; width:fit-content;"
         placeholder="Enter Shop Address Here" />
-      <span id="finalShopAddress"
-        style="display:none; font-size:13px; text-align:center; display:block; margin:0 auto; width:fit-content;"></span>
-      <!-- Tagline added -->
-      <span id="shopTagline" style="display:none; font-size:12px; text-align:center; display:block; margin:3px 0 0 0; font-style: italic;">
-        Your Trusted Laundry Partner!
-      </span>
+      <span id="finalShopAddress"></span>
+      <span id="shopTagline">Your Trusted Laundry Partner!</span>
     </p>
   </div>
 
@@ -253,15 +250,17 @@
     const manualInput = document.getElementById("manualShopAddress");
     const finalSpan = document.getElementById("finalShopAddress");
     const tagline = document.getElementById("shopTagline");
+
     let value = "";
     if (manualInput.style.display !== "none" && manualInput.value.trim() !== "") {
       value = manualInput.value;
     } else {
       value = select.options[select.selectedIndex].text;
     }
+
     finalSpan.textContent = value;
     finalSpan.style.display = "block";
-    tagline.style.display = "block"; // Show tagline
+    tagline.style.display = "block"; // show tagline
     select.style.display = "none";
     manualInput.style.display = "none";
   }
@@ -271,8 +270,9 @@
     const manualInput = document.getElementById("manualShopAddress");
     const finalSpan = document.getElementById("finalShopAddress");
     const tagline = document.getElementById("shopTagline");
+
     finalSpan.style.display = "none";
-    tagline.style.display = "none"; // Hide tagline
+    tagline.style.display = "none"; // hide tagline
     if (manualInput.value.trim() !== "") {
       manualInput.style.display = "block";
     } else {
