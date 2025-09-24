@@ -5,28 +5,43 @@
   <title>Murugan Laundry Bill</title>
   <style>
     @page { size: A4; margin: 10mm; }
-    body { font-family: Arial, sans-serif; margin: 0; padding: 0; }
-    .container { width: 100%; max-width: 700px; margin: auto; padding: 5px; border: 2px solid black; box-sizing: border-box; }
-    .header { text-align: center; }
-    .header h2 { font-size: 18px; margin: 0; text-decoration: underline; }
-    .header p { margin: 3px 0; font-size: 13px; }
-    .line { border-bottom: 1px solid black; margin: 6px 0; }
-    .info { display: flex; justify-content: space-between; font-size: 12px; }
-    .info input { width: 100%; padding: 3px; font-size: 12px; border: none; border-bottom: 1px dotted #555; background: transparent; outline: none; }
+    body { font-family: Arial, sans-serif; margin: 0; padding: 0; background: #f9f9f9; }
+
+    .container {
+      width: 100%; max-width: 700px; margin: auto; padding: 10px;
+      border: 2px solid #87CEFA; box-sizing: border-box; background: white; border-radius: 8px;
+    }
+
+    .header { text-align: center; background: #E0F7FA; padding: 10px; border-radius: 6px 6px 0 0; }
+    .header h2 { font-size: 20px; margin: 0; font-weight: bold; }
+    .header p { font-size: 13px; margin: 3px 0; }
+    .line { border-bottom: 1px solid #87CEFA; margin: 6px 0; }
+
+    .info { display: flex; justify-content: space-between; font-size: 12px; margin-top: 5px; }
+    .info input { width: 100%; padding: 4px; font-size: 12px; border: none; border-bottom: 1px dotted #555; background: transparent; outline: none; }
+
     table { width: 100%; border-collapse: collapse; font-size: 11px; margin-top: 4px; }
-    table, th, td { border: 1px solid black; }
-    th, td { padding: 2px; text-align: center; }
+    table, th, td { border: 1px solid #ccc; }
+    th { background: #B3E5FC; color: black; padding: 5px; }
+    td { padding: 4px; text-align: center; }
+    tr:nth-child(even) { background: #f0f9ff; }
+
     input[type="text"], input[type="number"], input[type="date"] {
       box-sizing: border-box; padding: 2px; font-size: 11px;
       border: none; border-bottom: 1px dotted #555; background: transparent; outline: none;
     }
     .desc-input { width: 100%; }
     .small-input { width: 45px; }
-    .totals { display: flex; justify-content: space-between; margin-top: 8px; }
+
+    .totals { display: flex; justify-content: space-between; margin-top: 10px; }
     .totals .left, .totals .right { width: 48%; font-size: 11px; }
     .totals .right td { text-align: left; }
-    .footer-line { border-top: 1px solid black; margin-top: 10px; }
-    .tagline { display: block; font-size: 13px; font-style: italic; margin-top: 4px; }
+    .totals .right td:last-child { font-weight: bold; }
+
+    .footer-line { border-top: 1px solid #87CEFA; margin-top: 10px; }
+
+    #finalShopAddress { font-weight: bold; font-size: 13px; display: block; text-align: center; margin: 0 auto; }
+
     @media print {
       button { display: none; }
       body { margin: 0; }
@@ -59,7 +74,10 @@
         placeholder="Enter Shop Address Here" />
       <span id="finalShopAddress"
         style="display:none; font-size:13px; text-align:center; display:block; margin:0 auto; width:fit-content;"></span>
-      <span class="tagline">Clean Clothes, Happy Life</span>
+      <!-- Tagline added -->
+      <span id="shopTagline" style="display:none; font-size:12px; text-align:center; display:block; margin:3px 0 0 0; font-style: italic;">
+        Your Trusted Laundry Partner!
+      </span>
     </p>
   </div>
 
@@ -234,6 +252,7 @@
     const select = document.getElementById("shopAddressSelect");
     const manualInput = document.getElementById("manualShopAddress");
     const finalSpan = document.getElementById("finalShopAddress");
+    const tagline = document.getElementById("shopTagline");
     let value = "";
     if (manualInput.style.display !== "none" && manualInput.value.trim() !== "") {
       value = manualInput.value;
@@ -242,6 +261,7 @@
     }
     finalSpan.textContent = value;
     finalSpan.style.display = "block";
+    tagline.style.display = "block"; // Show tagline
     select.style.display = "none";
     manualInput.style.display = "none";
   }
@@ -250,7 +270,9 @@
     const select = document.getElementById("shopAddressSelect");
     const manualInput = document.getElementById("manualShopAddress");
     const finalSpan = document.getElementById("finalShopAddress");
+    const tagline = document.getElementById("shopTagline");
     finalSpan.style.display = "none";
+    tagline.style.display = "none"; // Hide tagline
     if (manualInput.value.trim() !== "") {
       manualInput.style.display = "block";
     } else {
