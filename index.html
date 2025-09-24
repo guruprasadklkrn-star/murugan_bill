@@ -80,6 +80,7 @@
 
   <div class="line"></div>
 
+  <!-- Dynamic Rows Table -->
   <table>
     <thead>
       <tr>
@@ -92,7 +93,6 @@
       </tr>
     </thead>
     <tbody id="bill-body">
-      <!-- 10 starting rows -->
       <script>
         for (let i = 1; i <= 10; i++) {
           document.write(`
@@ -110,6 +110,28 @@
     </tbody>
   </table>
 
+  <!-- Extra Services Table -->
+  <table>
+    <thead>
+      <tr><th>Service Type</th><th>Price</th><th>Qty</th><th>Amount</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Wash & Iron Kg</td>
+        <td><input type="number" class="extra-price" value="100" oninput="calculateExtra(this)" /></td>
+        <td><input type="number" class="extra-qty" data-price="100" oninput="calculateExtra(this)" /></td>
+        <td><span class="extra-amount">0.00</span></td>
+      </tr>
+      <tr>
+        <td>Wash & Fold Kg</td>
+        <td><input type="number" class="extra-price" value="75" oninput="calculateExtra(this)" /></td>
+        <td><input type="number" class="extra-qty" data-price="75" oninput="calculateExtra(this)" /></td>
+        <td><span class="extra-amount">0.00</span></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- Totals -->
   <div class="totals">
     <div class="left">
       <p><strong>Timings:</strong> 9:00 am to 9:00 pm</p>
@@ -146,9 +168,20 @@
     addRowIfNeeded();
   }
 
+  function calculateExtra(el) {
+    const row = el.closest('tr');
+    const qtyInput = row.querySelector('.extra-qty');
+    const priceInput = row.querySelector('.extra-price');
+    const qty = parseFloat(qtyInput.value || 0);
+    const price = parseFloat(priceInput.value || 0);
+    qtyInput.dataset.price = price;
+    row.querySelector('.extra-amount').innerText = (price * qty).toFixed(2);
+    calculateTotal();
+  }
+
   function calculateTotal() {
     let subtotal = 0;
-    document.querySelectorAll(".amount").forEach(span => {
+    document.querySelectorAll(".amount, .extra-amount").forEach(span => {
       subtotal += parseFloat(span.innerText) || 0;
     });
     document.getElementById("subtotal").innerText = subtotal.toFixed(2);
