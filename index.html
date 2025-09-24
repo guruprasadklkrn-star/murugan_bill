@@ -41,7 +41,6 @@
     .footer-line { border-top: 1px solid #87CEFA; margin-top: 10px; }
 
     #finalShopAddress { font-weight: bold; font-size: 13px; display: block; text-align: center; margin: 0 auto; }
-    #shopTagline { font-size: 12px; text-align: center; font-style: italic; margin-top: 3px; display:block; }
 
     @media print {
       button { display: none; }
@@ -73,10 +72,9 @@
         style="display:none; margin:0 auto; border:none; border-bottom:1px dotted #555;
                background:transparent; outline:none; font-size:13px; text-align:center; width:fit-content;"
         placeholder="Enter Shop Address Here" />
-      <span id="finalShopAddress"></span>
+      <span id="finalShopAddress"
+        style="display:none; font-size:13px; text-align:center; display:block; margin:0 auto; width:fit-content;"></span>
     </p>
-    <!-- TAGLINE ALWAYS VISIBLE -->
-    <div id="shopTagline">Your Trusted Laundry Partner!</div>
   </div>
 
   <div class="line"></div>
@@ -250,14 +248,12 @@
     const select = document.getElementById("shopAddressSelect");
     const manualInput = document.getElementById("manualShopAddress");
     const finalSpan = document.getElementById("finalShopAddress");
-
     let value = "";
     if (manualInput.style.display !== "none" && manualInput.value.trim() !== "") {
       value = manualInput.value;
     } else {
       value = select.options[select.selectedIndex].text;
     }
-
     finalSpan.textContent = value;
     finalSpan.style.display = "block";
     select.style.display = "none";
@@ -268,7 +264,6 @@
     const select = document.getElementById("shopAddressSelect");
     const manualInput = document.getElementById("manualShopAddress");
     const finalSpan = document.getElementById("finalShopAddress");
-
     finalSpan.style.display = "none";
     if (manualInput.value.trim() !== "") {
       manualInput.style.display = "block";
@@ -307,3 +302,4 @@
 </script>
 </body>
 </html>
+
