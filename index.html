@@ -62,7 +62,7 @@
   <div class="header">
     <h2>MURUGAN LAUNDRY</h2>
     <p>
-      <select id="shopAddressSelect" onchange="toggleShopAddressInput(this)"
+      <select id="shopAddressSelect" onclick="openMap()" onchange="toggleShopAddressInput(this)"
         style="display:block; margin:0 auto; border:none; border-bottom:1px dotted #555;
                background:transparent; outline:none; font-size:13px; text-align:center; width:fit-content;">
         <option value="default">10th Cross, Patel Layout, Balagere Road, Varthur, Bangalore - 87</option>
@@ -96,7 +96,6 @@
 
   <div class="line"></div>
 
-  <!-- Dynamic Rows Table -->
   <table>
     <thead>
       <tr>
@@ -126,7 +125,6 @@
     </tbody>
   </table>
 
-  <!-- Extra Services Table -->
   <table>
     <thead>
       <tr><th>Service Type</th><th>Price</th><th>Qty</th><th>Amount</th></tr>
@@ -147,7 +145,6 @@
     </tbody>
   </table>
 
-  <!-- Totals -->
   <div class="totals">
     <div class="left">
       <p><strong>Timings:</strong> 9:00 am to 9:00 pm</p>
@@ -166,7 +163,6 @@
   <div class="footer-line"></div>
 </div>
 
-<!-- Save/Print buttons -->
 <div style="text-align:center; margin-top:20px;">
   <button onclick="saveAsPDF()">Save to PDF</button>
   <button onclick="prepareShopAddressForOutput(); window.print(); restoreShopAddressAfterOutput();">Print</button>
@@ -174,6 +170,13 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
+<script>
+function openMap() {
+  window.open("https://share.google/RKJKXWfgV6tqaPDUh", "_blank");
+}
+</script>
+
+<!-- YOUR EXISTING SCRIPT BELOW (UNCHANGED) -->
 <script>
   function calculateRow(input) {
     let row = input.closest("tr");
@@ -302,5 +305,3 @@
 </script>
 </body>
 </html>
-
-
